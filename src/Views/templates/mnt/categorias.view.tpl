@@ -17,7 +17,7 @@
       </tr>
     </thead>
     <tbody>
-      {{foreach items}}
+      {{foreach categorias}}
       <tr>
         <td>{{catid}}</td>
         <td><a href="index.php?page=mnt_categoria&mode=DSP&catid={{catid}}">{{catnom}}</a></td>
@@ -41,7 +41,7 @@
           {{endif delete_enabled}}
         </td>
       </tr>
-      {{endfor items}}
+      {{endfor categorias}}
     </tbody>
   </table>
 </section>
