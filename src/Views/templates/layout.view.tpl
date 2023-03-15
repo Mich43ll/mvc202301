@@ -36,7 +36,7 @@
   {{{page_content}}}
   </main>
   <footer>
-    <div>Todo los Derechos Reservados 2022 &copy;</div>
+    <div>Todo los Derechos Reservados 2023 &copy;</div>
   </footer>
   {{foreach EndScripts}}
     <script src="/{{~BASE_DIR}}/{{this}}"></script>

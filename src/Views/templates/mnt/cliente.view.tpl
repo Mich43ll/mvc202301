@@ -1,28 +1,28 @@
 <h1>{{modedsc}}</h1>
 <section class="row">
-  <form action="index.php?page=Mnt_Categoria&mode={{mode}}&catid={{catid}}"
+  <form action="index.php?page=Mnt_Clientes&mode={{mode}}&clientid={{clientid}}"
     method="POST"
     class="col-6 col-3-offset"
   >
     <section class="row">
     <label for="catid" class="col-4">Código</label>
-    <input type="hidden" id="catid" name="catid" value="{{catid}}"/>
+    <input type="hidden" id="catid" name="catid" value="{{clientid}}"/>
     <input type="hidden" id="mode" name="mode" value="{{mode}}"/>
     <input type="hidden"  name="xssToken" value="{{xssToken}}"/>
-    <input type="text" readonly name="catiddummy" value="{{catid}}"/>
+    <input type="text" readonly name="catiddummy" value="{{clientid}}"/>
     </section>
     <section class="row">
-      <label for="catnom" class="col-4">Categoría</label>
-      <input type="text" {{readonly}} name="catnom" value="{{catnom}}" maxlength="45" placeholder="Nombre de Categoría"/>
-      {{if catnom_error}}
-        <span class="error col-12">{{catnom_error}}</span>
-      {{endif catnom_error}}
+      <label for="clientname" class="col-4">Categoría</label>
+      <input type="text" {{readonly}} name="clientname" value="{{clientname}}" maxlength="45" placeholder="Nombre de Categoría"/>
+      {{if clientname_error}}
+        <span class="error col-12">{{clientname_error}}</span>
+      {{endif clientname_error}}
     </section>
     <section class="row">
-      <label for="catest" class="col-4">Estado</label>
-      <select id="catest" name="catest" {{if readonly}}disabled{{endif readonly}}>
-        <option value="ACT" {{catest_ACT}}>Activo</option>
-        <option value="INA" {{catest_INA}}>Inactivo</option>
+      <label for="clientstatus" class="col-4">Estado</label>
+      <select id="clientstatus" name="clientstatus" {{if readonly}}disabled{{endif readonly}}>
+        <option value="ACT" {{clientstatus_ACT}}>Activo</option>
+        <option value="INA" {{clientstatus_INA}}>Inactivo</option>
       </select>
     </section>
     {{if has_errors}}
@@ -49,7 +49,7 @@
       document.getElementById("btnCancelar").addEventListener("click", function(e){
         e.preventDefault();
         e.stopPropagation();
-        window.location.assign("index.php?page=Mnt_Categorias");
+        window.location.assign("index.php?page=Mnt_Clientes");
       });
   });
 </script>

@@ -7,7 +7,13 @@
     <thead>
       <tr>
         <th>Código</th>
-        <th>Categoría</th>
+        <th>Nombre</th>
+        <th>Genero</th>
+        <th>Telefono 1</th>
+        <th>Telefono 2</th>
+        <th>Email</th>
+        <th>Identidad</th>
+        <th>Descripcion</th>
         <th>Estado</th>
         <th>
           {{if new_enabled}}
@@ -17,31 +23,37 @@
       </tr>
     </thead>
     <tbody>
-      {{foreach categorias}}
+      {{foreach clientes}}
       <tr>
-        <td>{{catid}}</td>
-        <td><a href="index.php?page=Mnt_Categoria&mode=DSP&catid={{catid}}">{{catnom}}</a></td>
-        <td>{{catest}}</td>
+        <td>{{clientid}}</td>
+        <td><a href="index.php?page=Mnt_Cliente&mode=DSP&clientid={{clientid}}">{{clientname}}</a></td>
+        <td>{{clientgender}}</td>
+        <td>{{clientphone1}}</td>
+        <td>{{clientphone2}}</td>
+        <td>{{clientemail}}</td>
+        <td>{{clientIdnumber}}</td>
+        <td>{{clientbio}}</td>
+        <td>{{clientstatus}}</td>
         <td>
           {{if ~edit_enabled}}
           <form action="index.php" method="get">
-             <input type="hidden" name="page" value="Mnt_Categoria"/>
+             <input type="hidden" name="page" value="Mnt_Cliente"/>
               <input type="hidden" name="mode" value="UPD" />
-              <input type="hidden" name="catid" value={{catid}} />
+              <input type="hidden" name="clientid" value={{clientid}} />
               <button type="submit">Editar</button>
           </form>
           {{endif ~edit_enabled}}
           {{if ~delete_enabled}}
           <form action="index.php" method="get">
-             <input type="hidden" name="page" value="Mnt_Categoria"/>
+             <input type="hidden" name="page" value="Mnt_Cliente"/>
               <input type="hidden" name="mode" value="DEL" />
-              <input type="hidden" name="catid" value={{catid}} />
+              <input type="hidden" name="clientid" value={{clientid}} />
               <button type="submit">Eliminar</button>
           </form>
           {{endif ~delete_enabled}}
         </td>
       </tr>
-      {{endfor categorias}}
+      {{endfor clientes}}
     </tbody>
   </table>
 </section>
@@ -50,7 +62,7 @@
       document.getElementById("btnAdd").addEventListener("click", function (e) {
         e.preventDefault();
         e.stopPropagation();
-        window.location.assign("index.php?page=mnt_categoria&mode=INS&catid=0");
+        window.location.assign("index.php?page=mnt_categoria&mode=INS&clientid=0");
       });
     });
 </script>

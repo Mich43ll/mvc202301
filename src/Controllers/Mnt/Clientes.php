@@ -10,7 +10,7 @@ use Views\Renderer;
 /**
  * Categorias
  */
-class Categorias extends PublicController {
+class Clientes extends PublicController {
     /**
      * Handles Categorias Request
      *
@@ -23,8 +23,8 @@ class Categorias extends PublicController {
             "delete_enabled"=>true,
             "new_enabled"=>true
         );
-        $viewData["categorias"] = \Dao\Mnt\Categorias::findAll();
-        Renderer::render('mnt/categorias', $viewData);
+        $viewData["categorias"] = \Dao\Mnt\Clientes::findAll();
+        Renderer::render('mnt/clientes', $viewData);
     }
 }
 ?>
