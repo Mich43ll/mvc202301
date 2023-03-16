@@ -201,7 +201,7 @@ class Journal extends PublicController{
         if($this->viewData["mode"] === "INS") {
             $this->viewData["modedsc"] = $this->modes["INS"];
         } else {
-            $tmpJournal = \Dao\Mnt\Journals::findById($this->viewData["journal_id"]);
+            $tmpJournal = \Dao\Mnt\Journals::getById($this->viewData["journal_id"]);
             if(!$tmpJournal){
                 throw new Exception("Journal no existe en DB");
             }

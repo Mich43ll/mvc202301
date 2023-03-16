@@ -21,7 +21,7 @@ class Journals extends table
     {
         return self::obtenerRegistros("SELECT * FROM journals", array());
     }
-    public static function findById(int $journal_id)
+    public static function getById(int $journal_id)
     {
         return self::obtenerUnRegistro("SELECT * FROM journals WHERE journal_id = $journal_id", array("journal_id" => $journal_id));
     }
