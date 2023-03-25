@@ -4,29 +4,27 @@ namespace Controllers\Mnt;
 use Controllers\PublicController;
 use Exception;
 use Views\Renderer;
-/*
-`journal_id` BIGINT(8) NOT NULL AUTO_INCREMENT,
-`catnom` VARCHAR(45) NULL,
-`catest` CHAR(3) NULL DEFAULT 'ACT',
-*/
-class Funcion extends PublicController{
+
+class Account extends PublicController{
 
       ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    private $redirectTo = "index.php?page=Mnt-Funciones";
+    private $redirectTo = "index.php?page=Mnt-Accounts";
 
 
       ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private $viewData = array(
         "mode" => "DSP",
         "modedsc" => "",
-        "fncod" => 0,
-        "fndsc" => "",
-        "fnest" => "ACT",
-        "fnest_ACT" => "selected",
-        "fnest_INA" => "",
-        "fntyp" => "ACT",
-        "fntyp_ACT" => "selected",
-        "fntyp_INA" => "",
+        "account_id" => 0,
+        "account_name" => "",
+        "account_type" => "ASSET",
+        "account_type_ASSET" => "selected",
+        "account_type_LIABILITY" => "",
+        "account_type_EQUITY" => "",
+        "account_type_INCOME" => "",
+        "account_type_EXPENSE" => "",
+        "balance" => 0,
+        "created_at" => "",
         "general_errors"=> array(),
         "has_errors" =>false,
         "show_action" => true,
@@ -37,7 +35,7 @@ class Funcion extends PublicController{
       ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     private $modes = array(
         "DSP" => "Detalle de %s (%s)",
-        "INS" => "Nueva Funcion",
+        "INS" => "Nueva Cuenta",
         "UPD" => "Editar %s (%s)",
         "DEL" => "Borrar %s (%s)"
     );
@@ -70,8 +68,8 @@ class Funcion extends PublicController{
             throw new Exception("Mode not defined on Query Params");
         }
         if($this->viewData["mode"] !== "INS") {
-            if(isset($_GET['fncod'])){
-                $this->viewData["fncod"] = intval($_GET["fncod"]);
+            if(isset($_GET['account_id'])){
+                $this->viewData["account_id"] = intval($_GET["account_id"]);
             } else {
                 throw new Exception("Id not found on Query Params");
             }
@@ -80,35 +78,42 @@ class Funcion extends PublicController{
 
         ///////////////////////////////////////////////////////INICIO DE LOS CAMPOS DE LA TABLA JOURNAL///////////////////////////////////////////////////////
         private function validatePostData(){
-        if(isset($_POST["fndsc"])){
-            if(\Utilities\Validators::IsEmpty($_POST["fndsc"])){
+        if(isset($_POST["account_name"])){
+            if(\Utilities\Validators::IsEmpty($_POST["account_name"])){
                 $this->viewData["has_errors"] = true;
             }
         } else {
-            throw new Exception("Function description not present in form");
+            throw new Exception("journal description not present in form");
         }
 
         ///////////////////////////////////////////////////////
-        if(isset($_POST["fnest"])){
-            if (!in_array( $_POST["fnest"], array("ACT","INA"))){
-                throw new Exception("fnest incorrect value");
+        if(isset($_POST["account_type"])){
+            if (!in_array( $_POST["account_type"], array("ASSET","LIABILITY","EQUITY","INCOME","EXPENSE"))){
+                throw new Exception("account_type incorrect value");
             }
         }else {
             if($this->viewData["mode"]!=="DEL") {
-                throw new Exception("fnest not present in form");
+                throw new Exception("account_type not present in form");
             }
         }
 
         ///////////////////////////////////////////////////////
-        if(isset($_POST["fntyp"])){
-            if (!in_array( $_POST["fntyp"], array("ACT","INA"))){
-                throw new Exception("fntyp incorrect value");
+        if(isset($_POST["balance"])){
+            if(floatval($_POST["balance"])<=0){
+                throw new Exception ("Balance amount incorrect value");
             }
-        }else {
-            if($this->viewData["mode"]!=="DEL") {
-                throw new Exception("fntyp not present in form");
+            if(\Utilities\Validators::IsEmpty($_POST["balance"])){
+                throw new Exception ("Balance amount is empty");
             }
         }
+
+        ///////////////////////////////////////////////////////
+        if(isset($_POST["created_at"])){
+            if(\Utilities\Validators::IsEmpty($_POST["created_at"])){
+                throw new Exception ("Date incorrect value");
+            }
+        }
+
         ///////////////////////////////////////////////////////FINAL DE LOS CAMPOS DE LA TABLA JOURNAL///////////////////////////////////////////////////////
 
         ///////////////////////////////////////////////////////
@@ -124,24 +129,24 @@ class Funcion extends PublicController{
         }
 
         ///////////////////////////////////////////////////////
-        if(isset($_POST["fncod"])){
-            if(($this->viewData["mode"] !== "INS" && intval($_POST["fncod"])<=0)){
-                throw new Exception("fncod is not Valid");
+        if(isset($_POST["account_id"])){
+            if(($this->viewData["mode"] !== "INS" && intval($_POST["account_id"])<=0)){
+                throw new Exception("account_id is not Valid");
             }
-            if($this->viewData["fncod"]!== intval($_POST["fncod"])){
-                throw new Exception("fncod value is different from query");
+            if($this->viewData["account_id"]!== intval($_POST["account_id"])){
+                throw new Exception("account_id value is different from query");
             }
         }else {
-            throw new Exception("fncod not present in form");
+            throw new Exception("account_id not present in form");
         }
 
  
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         $tmpPostData = array(
-            "fndsc" => $_POST["fndsc"],
-            "fnest" => $_POST["fnest"],
-            "fntyp" => $_POST["fntyp"]
-                                      );
+                            "account_name" => $_POST["account_name"],
+                            "account_type" => $_POST["account_type"],
+                            "balance" =>floatval( $_POST["balance"]),
+                            "created_at" => $_POST["created_at"]);
 
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -151,7 +156,7 @@ class Funcion extends PublicController{
         
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         if($this->viewData["mode"]!=="DEL"){
-            $this->viewData["fnest"] = $_POST["fnest"];
+            $this->viewData["account_type"] = $_POST["account_type"];
         }
     }
 
@@ -160,40 +165,42 @@ class Funcion extends PublicController{
     private function executeAction(){
         switch($this->viewData["mode"]){
             case "INS":
-                $inserted = \Dao\Mnt\Funciones::insert(
-                    $this->viewData["fndsc"],
-                    $this->viewData["fnest"],
-                    $this->viewData["fntyp"]
+                $inserted = \Dao\Mnt\Accounts::insert(
+                    $this->viewData["account_name"],
+                    $this->viewData["account_type"],
+                    $this->viewData["balance"],
+                    $this->viewData["created_at"]
                 );
                 if($inserted > 0){
                     \Utilities\Site::redirectToWithMsg(
                         $this->redirectTo,
-                        "Journal Creada Exitosamente"
+                        "Cuenta Creada Exitosamente"
                     );
                 }
                 break;
             case "UPD":
-                $updated = \Dao\Mnt\Funciones::update(
-                    $this->viewData["fncod"],
-                    $this->viewData["fndsc"],
-                    $this->viewData["fnest"],
-                    $this->viewData["fntyp"]
+                $updated = \Dao\Mnt\Accounts::update(
+                    $this->viewData["account_name"],
+                    $this->viewData["account_type"],
+                    $this->viewData["balance"],
+                    $this->viewData["created_at"],
+                    $this->viewData["account_id"]
                 );
                 if($updated > 0){
                     \Utilities\Site::redirectToWithMsg(
                         $this->redirectTo,
-                        "Journal Actualizada Exitosamente"
+                        "Cuenta Actualizada Exitosamente"
                     );
                 }
                 break;
             case "DEL":
-                $deleted = \Dao\Mnt\Funciones::delete(
-                    $this->viewData["fncod"]
+                $deleted = \Dao\Mnt\Accounts::delete(
+                    $this->viewData["account_id"]
                 );
                 if($deleted > 0){
                     \Utilities\Site::redirectToWithMsg(
                         $this->redirectTo,
-                        "Journal Eliminada Exitosamente"
+                        "Cuenta Eliminada Exitosamente"
                     );
                 }
                 break;
@@ -203,23 +210,23 @@ class Funcion extends PublicController{
         if($this->viewData["mode"] === "INS") {
             $this->viewData["modedsc"] = $this->modes["INS"];
         } else {
-            $tmpFunciones = \Dao\Mnt\Funciones::getById($this->viewData["fncod"]);
-            if(!$tmpFunciones){
-                throw new Exception("Codigo no existe en DB");
+            $tmpAccounts = \Dao\Mnt\Accounts::getById($this->viewData["account_id"]);
+            if(!$tmpAccounts){
+                throw new Exception("Cuenta no existe en DB");
             }
             //$this->viewData["catnom"] = $tmpJournal["catnom"];
             //$this->viewData["catest"] = $tmpJournal["catest"];
-            \Utilities\ArrUtils::mergeFullArrayTo($tmpFunciones, $this->viewData);
-            $this->viewData["fnest_ACT"] = $this->viewData["fnest"] === "ACT" ? "selected": "";
-            $this->viewData["fnest_INA"] = $this->viewData["fnest"] === "INA" ? "selected": "";
-            $this->viewData["fntyp_ACT"] = $this->viewData["fntyp"] === "ACT" ? "selected": "";
-            $this->viewData["fntyp_INA"] = $this->viewData["fntyp"] === "INA" ? "selected": "";
+            \Utilities\ArrUtils::mergeFullArrayTo($tmpAccounts, $this->viewData);
+            $this->viewData["account_type_ASSET"] = $this->viewData["account_type"] === "ASSET" ? "selected": "";
+            $this->viewData["account_type_LIABILITY"] = $this->viewData["account_type"] === "LIABILITY" ? "selected": "";
+            $this->viewData["account_type_EQUITY"] = $this->viewData["account_type"] === "EQUITY" ? "selected": "";
+            $this->viewData["account_type_INCOME"] = $this->viewData["account_type"] === "INCOME" ? "selected": "";
+            $this->viewData["account_type_EXPENSE"] = $this->viewData["account_type"] === "EXPENSE" ? "selected": "";
 
             $this->viewData["modedsc"] = sprintf(
                 $this->modes[$this->viewData["mode"]],
-                $this->viewData["fndsc"],
-                $this->viewData["fnest"],
-                $this->viewData["fntyp"],
+                $this->viewData["account_name"],
+                $this->viewData["account_id"]
             );
             if(in_array($this->viewData["mode"], array("DSP","DEL"))){
                 $this->viewData["readonly"] = "readonly";
@@ -228,8 +235,6 @@ class Funcion extends PublicController{
                 $this->viewData["show_action"] = false;
             }
         }
-        Renderer::render("mnt/funcion", $this->viewData);
+        Renderer::render("mnt/account", $this->viewData);
     }
 }
-
-?>

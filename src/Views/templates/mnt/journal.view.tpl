@@ -11,27 +11,35 @@
     <input type="hidden"  name="xssToken" value="{{xssToken}}"/>
     <input type="text" readonly name="journal_iddummy" value="{{journal_id}}"/>
     </section>
+
+
     <section class="row">
       <label for="journal_date" class="col-4">Fecha</label>
       <input type="text" {{readonly}} name="journal_date" value="{{journal_date}}" maxlength="10" placeholder="YYYY-MM-DD"/>
     </section>
 
+
     <section class="row">
       <label for="journal_type" class="col-4">Tipo</label>
       <select id="journal_type" name="journal_type" {{if readonly}}disabled{{endif readonly}}>
-        <option value="DEBIT" {{journal_type_ACT}}>Debito</option>
-        <option value="CREDIT" {{journal_type_INA}}>Credito</option>
+        <option value="DEBIT" {{journal_type_DEBIT}}>Debito</option>
+        <option value="CREDIT" {{journal_type_CREDIT}}>Credito</option>
       </select>
     </section>
+
 
     <section class="row">
       <label for="journal_description" class="col-4">Descripcion</label>
       <input type="text" {{readonly}} name="journal_description" value="{{journal_description}}" maxlength="100" placeholder="Descripcion"/>
     </section>
+
+
     <section class="row">
       <label for="journal_amount" class="col-4">Monto</label>
-      <input type="text" {{readonly}} name="journal_amount" value="{{journal_amount}}" />
+      <input type="number" {{readonly}} name="journal_amount" value="{{journal_amount}}" />
     </section>
+
+
     {{if has_errors}}
         <section>
           <ul>

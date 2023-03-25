@@ -1,6 +1,6 @@
 <h1>{{modedsc}}</h1>
 <section class="row">
-  <form action="index.php?page=Mnt_Funciones&mode={{mode}}&fncod={{fncod}}"
+  <form action="index.php?page=Mnt_Funcion&mode={{mode}}&fncod={{fncod}}"
     method="POST"
     class="col-6 col-3-offset"
   >
@@ -11,18 +11,27 @@
      <input type="hidden" name="xssToken" value="{{xssToken}}"/>
     <input type="text" readonly name="fncoddummy" value="{{fncod}}"/>
     </section>
+
+
     <section class="row">
       <label for="fndsc" class="col-4">Funcion</label>
-      <input type="text" {{readonly}} name="fndsc" value="{{fndsc}}" maxlength="45" placeholder="Descripcion de Funcion"/>
-      {{if fndsc_error}}
-        <span class="error col-12">{{fndsc_error}}</span>
-      {{endif fndsc_error}}
+      <input type="text" {{readonly}} name="fndsc" value="{{fndsc}}" placeholder="Descripcion de Funcion"/>
     </section>
+
+
     <section class="row">
       <label for="fnest" class="col-4">Estado</label>
       <select id="fnest" name="fnest" {{if readonly}}disabled{{endif readonly}}>
         <option value="ACT" {{fnest_ACT}}>Activo</option>
         <option value="INA" {{fnest_INA}}>Inactivo</option>
+      </select>
+    </section>
+
+    <section class="row">
+      <label for="fntyp" class="col-4">Tipo</label>
+      <select id="fntyp" name="fntyp" {{if readonly}}disabled{{endif readonly}}>
+        <option value="ACT" {{fntyp_ACT}}>Activo</option>
+        <option value="INA" {{fntyp_INA}}>Inactivo</option>
       </select>
     </section>
     {{if has_errors}}

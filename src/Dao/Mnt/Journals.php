@@ -23,7 +23,7 @@ class Journals extends table
     }
     public static function getById(int $journal_id)
     {
-        return self::obtenerUnRegistro("SELECT * FROM journals WHERE journal_id = $journal_id", array("journal_id" => $journal_id));
+        return self::obtenerUnRegistro("SELECT * FROM journals WHERE journal_id = :journal_id", array("journal_id" => $journal_id));
     }
 
     public static function insert(
@@ -64,8 +64,8 @@ now());";
         SET
         `journal_date` = :journal_date,
         `journal_type` = :journal_type ,
-        `journal_description` = :Journal_description ,
-        `journal_amount` = :journal_amount: 
+        `journal_description` = :journal_description ,
+        `journal_amount` = :journal_amount 
         WHERE `journal_id` = :journal_id;";
 
         return self::executeNonQuery($upd_sql, array(
@@ -84,3 +84,5 @@ now());";
         return self::executeNonQuery($del_sql, array("journal_id" => $journal_id));
     }
 }
+
+?>

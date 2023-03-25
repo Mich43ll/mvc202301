@@ -1,4 +1,4 @@
-<h1>Gestión de Categorías</h1>
+<h1>Gestión de Clientes</h1>
 <section class="WWFilter">
 
 </section>
@@ -62,7 +62,7 @@
       document.getElementById("btnAdd").addEventListener("click", function (e) {
         e.preventDefault();
         e.stopPropagation();
-        window.location.assign("index.php?page=mnt_categoria&mode=INS&clientid=0");
+        window.location.assign("index.php?page=mnt_cliente&mode=INS&clientid=0");
       });
     });
 </script>

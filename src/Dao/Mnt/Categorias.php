@@ -33,7 +33,9 @@ class Categorias extends Table{
         string $catest,
         int $catid
     ){
-        $sqlstr = "UPDATE categorias set catnom = :catnom, catest = :catest where catid=:catid;";
+        $sqlstr = "UPDATE categorias set catnom = :catnom, 
+        catest = :catest 
+        where catid=:catid;";
         $rowsUpdated = self::executeNonQuery(
             $sqlstr,
             array(
