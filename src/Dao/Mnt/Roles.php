@@ -26,7 +26,7 @@ class Roles extends Table
     }
 
     public static function insert(
-        string $rol_id,
+        int $rol_id,
         string $rol_dsc,
         string $rol_est,
     ) {
@@ -47,16 +47,16 @@ class Roles extends Table
     }
 
     public static function update(
-        string $rol_id,
+        int $rol_id,
         string $rol_dsc,
         string $rol_est,
     ) {
         $upd_sql = "UPDATE `roles`
         SET
-        `rol_id` = <{rol_id: }>,
-        `rol_dsc` = <{rol_dsc: }>,
-        `rol_est` = <{rol_est: }>
-        WHERE `rol_id` = <{expr}>;
+        `rol_id` = :rol_id,
+        `rol_dsc` = :rol_dsc,
+        `rol_est` = :rol_est
+        WHERE `rol_id` = :rol_id;
         ";
 
         return self::executeNonQuery($upd_sql, array(
@@ -66,7 +66,7 @@ class Roles extends Table
         ));
     }
 
-    public static function delete(string $rol_id)
+    public static function delete(int $rol_id)
     {
         $del_sql="DELETE FROM roles WHERE rol_id = :rol_id;";
         return self::executeNonQuery($del_sql, array("rol_id" => $rol_id));

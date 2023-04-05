@@ -50,7 +50,7 @@
       document.getElementById("btnAdd").addEventListener("click", function (e) {
         e.preventDefault();
         e.stopPropagation();
-        window.location.assign("index.php?page=mnt_rol&mode=INS&rol_id=0");
+        window.location.assign("index.php?page=mnt_Rol&mode=INS&rol_id=0");
       });
     });
 </script>
